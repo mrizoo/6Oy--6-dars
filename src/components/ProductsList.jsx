@@ -14,16 +14,25 @@ function ProductsList({ products }) {
                   alt="Shoes"
                 />
               </figure>
-              <div className="card-body">
+              <div className="card-body ">
                 <h2 className="card-title">{product.title}</h2>
-                <p className="line-clamp-3">{product.description}</p>
-                <div className="card-actions justify-between items-center">
-                  <p className="text-2xl gap-1 items-center">
-                    <IoIosPricetag />${product.price}
+                <p className=" line-clamp-3">{product.description}</p>
+                <ul className=" ">
+                  <li className=" p-5">
+                    <b>Type</b>:{product.category}
+                  </li>
+                  <li className=" p-5">
+                    <b>Rating</b> :{product.rating}
+                  </li>
+                </ul>
+                <div className="flex items-center">
+                  <p className=" flex items-center gap-2  p-5">
+                    <IoIosPricetag />
+                    <b>Price:</b> {product.price}$
                   </p>
                   <Link
                     to={`/product/${product.id}`}
-                    className=" btn btn-primary"
+                    className="btn btn-primary mt-5"
                   >
                     Buy Now
                   </Link>

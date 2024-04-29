@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 import NavLinks from "./NavLinks";
+
+import { createContext, useContext } from "react";
+import { GlobalContext } from "../context/useGlobal";
 function Navbar() {
+  const { dispatch } = useContext(GlobalContext);
+
+  const handleLogout = () => {
+    dispatch({ type: "LOG_OUT" });
+  };
+
   return (
     <div className=" bg-base-300 py-6 mb-10">
       <div className="navbar max-w-5xl mx-auto">
@@ -25,7 +34,9 @@ function Navbar() {
         </div>
 
         <div className="navbar-end">
-          <button className="btn btn-primary">Login</button>
+          <button onClick={handleLogout} className="btn btn-primary">
+            Logout
+          </button>
         </div>
       </div>
     </div>
