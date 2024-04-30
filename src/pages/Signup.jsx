@@ -1,7 +1,8 @@
 import { FaGoogle } from "react-icons/fa";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 
+//context
 import { GlobalContext } from "../context/useGlobal";
 import { useContext } from "react";
 
@@ -9,13 +10,13 @@ function Signup() {
   const { dispatch } = useContext(GlobalContext);
   const handleSignup = () => {
     const provider = new GoogleAuthProvider();
-
     signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
         dispatch({ type: "LOG_IN", payload: user });
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;

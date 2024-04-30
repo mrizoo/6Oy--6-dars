@@ -6,7 +6,7 @@ const changeState = (state, action) => {
     case "LOG_IN":
       return { ...state, user: action.payload };
     case "LOG_OUT":
-      return { ...state, user: false };
+      return { ...state, user: null };
   }
 };
 
