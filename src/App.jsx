@@ -8,7 +8,7 @@ import {
 import MainLayout from "./layouts/MainLayout";
 
 //context
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "./context/useGlobal";
 
 //components
@@ -21,8 +21,13 @@ import Contact from "./pages/Contact";
 import Product from "./pages/Product";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase/firebaseConfig";
+
+//actions
+import { action as SignupAction } from "./pages/Signup";
 function App() {
-  const user = useContext(GlobalContext);
+  const { user } = useContext(GlobalContext);
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -57,10 +62,17 @@ function App() {
     {
       path: "/signup",
       element: <Signup />,
+      action: SignupAction,
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch({ type: "LOG_IN", payload: user });
+      dispatch({ type: "AUTH_READY" });
+    });
+  }, []);
+  return <> {authReady && <RouterProvider router={routes} />}</>;
 }
 
 export default App;

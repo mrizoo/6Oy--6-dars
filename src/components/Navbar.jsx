@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import NavLinks from "./NavLinks";
 
-import { createContext, useContext } from "react";
+import { useContext } from "react";
 import { GlobalContext } from "../context/useGlobal";
 function Navbar() {
-  const { dispatch } = useContext(GlobalContext);
+  const { dispatch, user } = useContext(GlobalContext);
 
   const handleLogout = () => {
     dispatch({ type: "LOG_OUT" });
@@ -34,6 +34,12 @@ function Navbar() {
         </div>
 
         <div className="navbar-end">
+          {user && <p>{user.displayName}</p>}
+          <div className="avatar">
+            <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+              <img src={user.photoURL} />
+            </div>
+          </div>
           <button onClick={handleLogout} className="btn btn-primary">
             Logout
           </button>
