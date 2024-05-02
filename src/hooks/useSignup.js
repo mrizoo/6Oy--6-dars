@@ -10,7 +10,6 @@ import {
 import { auth } from "../firebase/firebaseConfig";
 import { useActionData } from "react-router-dom";
 import toast from "react-hot-toast";
-// const notify = () => toast.success("Welcome");
 
 function useSignup() {
   const actionData = useActionData();
@@ -39,6 +38,7 @@ function useSignup() {
       });
   };
   const registerWithEmailAndPassword = (actionData) => {
+    console.log(actionData);
     createUserWithEmailAndPassword(auth, actionData.email, actionData.password)
       .then(async (userCredential) => {
         const user = userCredential.user;
@@ -46,11 +46,11 @@ function useSignup() {
           displayName: actionData.name,
           photoURL: actionData.image,
         });
+        dispatch({ type: "LOG_IN", payload: user });
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // ..
       });
   };
 

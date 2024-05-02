@@ -33,7 +33,7 @@ function Navbar() {
           <NavLinks />
         </div>
 
-        <div className="navbar-end">
+        <div className="navbar-end flex gap-5">
           {user && <p>{user.displayName}</p>}
           <div className="avatar">
             <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">

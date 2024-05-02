@@ -25,15 +25,14 @@ function Signup() {
           <FormInput label="Email" type="email" name="email" />
           <FormInput label="Image" type="url" name="image" />
           <FormInput label="Password" type="password" name="password" />
+          <button
+            onClick={registerWithEmailAndPassword}
+            type="submit"
+            className="btn btn-primary w-full mt-3"
+          >
+            Submit
+          </button>
         </Form>
-        // ...
-        <button
-          onClick={registerWithEmailAndPassword}
-          type="submit"
-          className="btn btn-primary w-full mt-3"
-        >
-          Submit
-        </button>
       </div>
       <div>
         <button
