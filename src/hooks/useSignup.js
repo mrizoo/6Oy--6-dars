@@ -1,15 +1,25 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "../context/useGlobal";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 import { auth } from "../firebase/firebaseConfig";
 import { useActionData } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 // const notify = () => toast.success("Welcome");
 
 function useSignup() {
   const actionData = useActionData();
+
+  useEffect(() => {
+    if (actionData) {
+      registerWithEmailAndPassword(actionData);
+    }
+  }, [actionData]);
 
   const { dispatch } = useContext(GlobalContext);
   const signUpWithGoogle = () => {
@@ -28,9 +38,23 @@ function useSignup() {
         const credential = GoogleAuthProvider.credentialFromError(error);
       });
   };
-  const registerWithEmailAndPassword = () => {};
+  const registerWithEmailAndPassword = (actionData) => {
+    createUserWithEmailAndPassword(auth, actionData.email, actionData.password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        await updateProfile(auth.currentUser, {
+          displayName: actionData.name,
+          photoURL: actionData.image,
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
 
-  return { signUpWithGoogle, registerWithEmailAndPassword };
+  return { signUpWithGoogle };
 }
 
 export { useSignup };

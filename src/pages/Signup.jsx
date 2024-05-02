@@ -15,7 +15,7 @@ export const action = async ({ request }) => {
 };
 
 function Signup() {
-  const { signUpWithGoogle } = useSignup();
+  const { signUpWithGoogle, registerWithEmailAndPassword } = useSignup();
 
   return (
     <div className="min-h-screen grid place-content-center w-full">
@@ -26,7 +26,12 @@ function Signup() {
           <FormInput label="Image" type="url" name="image" />
           <FormInput label="Password" type="password" name="password" />
         </Form>
-        <button type="submit" className="btn btn-primary w-full mt-3">
+        // ...
+        <button
+          onClick={registerWithEmailAndPassword}
+          type="submit"
+          className="btn btn-primary w-full mt-3"
+        >
           Submit
         </button>
       </div>
