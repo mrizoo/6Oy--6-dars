@@ -12,14 +12,6 @@ import { useActionData } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function useSignup() {
-  const actionData = useActionData();
-
-  useEffect(() => {
-    if (actionData) {
-      registerWithEmailAndPassword(actionData);
-    }
-  }, [actionData]);
-
   const { dispatch } = useContext(GlobalContext);
   const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
@@ -35,6 +27,7 @@ function useSignup() {
         const errorMessage = error.message;
         const email = error.customData.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
+        toast.success(errorMessage);
       });
   };
   const registerWithEmailAndPassword = (actionData) => {
@@ -51,10 +44,11 @@ function useSignup() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        toast.success(errorMessage);
       });
   };
 
-  return { signUpWithGoogle };
+  return { signUpWithGoogle, registerWithEmailAndPassword };
 }
 
 export { useSignup };

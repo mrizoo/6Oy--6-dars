@@ -1,8 +1,9 @@
-import { Form, useActionData } from "react-router-dom";
+import { Form, Link, useActionData } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useSignup } from "../hooks/useSignup";
 import FormInput from "../components/FormInput";
 import { useEffect } from "react";
+import SubmitBtn from "../components/SubmitBtn";
 //context
 
 export const action = async ({ request }) => {
@@ -16,22 +17,25 @@ export const action = async ({ request }) => {
 
 function Signup() {
   const { signUpWithGoogle, registerWithEmailAndPassword } = useSignup();
+  const actionData = useActionData();
 
+  useEffect(() => {
+    if (actionData) {
+      registerWithEmailAndPassword(actionData);
+    }
+  }, [actionData]);
   return (
     <div className="min-h-screen grid place-content-center w-full">
       <div className="mb-3">
         <Form method="post">
+          <h1 className="text-4xl font-bold text-center">Signup</h1>
           <FormInput label="Display Name" type="text" name="displayName" />
           <FormInput label="Email" type="email" name="email" />
           <FormInput label="Image" type="url" name="image" />
           <FormInput label="Password" type="password" name="password" />
-          <button
-            onClick={registerWithEmailAndPassword}
-            type="submit"
-            className="btn btn-primary w-full mt-3"
-          >
-            Submit
-          </button>
+          <div className="mt-4">
+            <SubmitBtn onClick={registerWithEmailAndPassword} text="Submit" />
+          </div>
         </Form>
       </div>
       <div>
@@ -43,6 +47,12 @@ function Signup() {
           <FaGoogle className="h-5 w-5" />
           SignUp
         </button>
+        <p className="mt-4 text-center">
+          Already registered ?
+          <Link to="/login" className="link link-primary">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );

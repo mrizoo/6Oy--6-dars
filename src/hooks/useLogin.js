@@ -1,14 +1,27 @@
-import { useActionData } from "react-router-dom";
-
-export const action = async ({ request }) => {
-  let formData = await request.formData();
-  let email = formData.get("email");
-  let password = formData.get("password");
-  return { email, password };
-};
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
+import toast from "react-hot-toast";
+import { GlobalContext } from "../context/useGlobal";
+import { useContext } from "react";
 
 function useLogin() {
-  return <div>useLogin</div>;
+  const { dispatch } = useContext(GlobalContext);
+
+  const loginWithEmailAndPassword = (actionData) => {
+    signInWithEmailAndPassword(auth, actionData.email, actionData.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        dispatch({ type: "LOG_IN", payload: user });
+        toast.success("WELCOME");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        toast.success(errorMessage);
+        const errorMessage = error.message;
+      });
+  };
+
+  return { loginWithEmailAndPassword };
 }
 
-export default useLogin;
+export { useLogin };

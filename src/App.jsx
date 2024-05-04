@@ -25,6 +25,7 @@ import { auth } from "./firebase/firebaseConfig";
 
 //actions
 import { action as SignupAction } from "./pages/Signup";
+import { action as LoginAction } from "./pages/Login";
 function App() {
   const { user, dispatch } = useContext(GlobalContext);
   const routes = createBrowserRouter([
@@ -57,6 +58,7 @@ function App() {
     {
       path: "/login",
       element: user ? <Navigate to="/" /> : <Login />,
+      action: LoginAction,
     },
     {
       path: "/signup",
